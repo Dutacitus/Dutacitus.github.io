@@ -3,37 +3,237 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>dutacitus.loc.cc · 个人小站</title>
-<meta name="description" content="dutacitus 的个人小站，AquaRAS 循环水养殖工艺计算平台的入口页。">
+<title>dutacitus · AquaRAS 作者 | dutacitus.loc.cc</title>
+<meta name="description" content="dutacitus 的个人站，AquaRAS 作者。动土之前，先把账算透：把循环水养殖建场前要算的工艺、设备、投资与能耗，做成打开浏览器就能跑一遍的计算。">
 <style>
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;margin:0;background:#0f172a;color:#e2e8f0;line-height:1.7}
-  main{max-width:720px;margin:0 auto;padding:64px 24px}
-  h1{font-size:32px;margin:0 0 8px;color:#fff}
-  .sub{color:#94a3b8;margin:0 0 32px}
-  .card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:20px 24px;margin:16px 0}
-  .card h2{margin:0 0 8px;font-size:20px;color:#fff}
-  a{color:#38bdf8;text-decoration:none}
+  :root{
+    --ink:#0b1526; --ink2:#101f38; --teal:#14b8a6; --teal-d:#0d9488; --sky:#38bdf8;
+    --paper:#f6f8fa; --card:#ffffff; --line:#e2e8f0; --txt:#1e293b; --mut:#64748b;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;margin:0;background:var(--paper);color:var(--txt);line-height:1.75}
+  a{color:var(--teal-d);text-decoration:none}
   a:hover{text-decoration:underline}
-  footer{color:#64748b;font-size:14px;margin-top:40px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+
+  /* 导航 */
+  header{position:sticky;top:0;background:rgba(11,21,38,.92);backdrop-filter:blur(6px);z-index:10}
+  nav{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:960px;margin:0 auto;padding:0 24px}
+  .brand{color:#fff;font-weight:700;font-size:17px}
+  .brand span{color:var(--teal);font-weight:600;font-size:13px;margin-left:8px;letter-spacing:.08em}
+  .links a{color:#cbd5e1;margin-left:22px;font-size:14px}
+  .links a:hover{color:#fff;text-decoration:none}
+  .links a.btn{background:var(--teal);color:#04211d;padding:7px 16px;border-radius:999px;font-weight:600}
+  .links a.btn:hover{background:#2dd4bf;color:#04211d}
+  @media(max-width:640px){.links a:not(.btn){display:none}}
+
+  /* 主视觉 */
+  .hero{background:linear-gradient(160deg,var(--ink) 0%,var(--ink2) 60%,#0a2e35 100%);color:#e2e8f0;padding:84px 0 72px}
+  .badge{display:inline-block;border:1px solid rgba(20,184,166,.55);color:#5eead4;border-radius:999px;padding:3px 14px;font-size:13px;letter-spacing:.12em;margin-bottom:22px}
+  .hero h1{font-size:42px;line-height:1.3;margin:0 0 18px;color:#fff;font-weight:800}
+  .hero h1 em{font-style:normal;color:var(--teal)}
+  .hero p.lead{font-size:17px;color:#a8bdd6;max-width:660px;margin:0 0 30px}
+  .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .cta a{border-radius:10px;padding:12px 26px;font-weight:600;font-size:15px}
+  .cta a:hover{text-decoration:none}
+  .cta .primary{background:var(--teal);color:#04211d}
+  .cta .primary:hover{background:#2dd4bf}
+  .cta .ghost{border:1px solid #3b5878;color:#dbeafe}
+  .cta .ghost:hover{border-color:var(--sky);color:#fff}
+  .chips{margin-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+  .chips span{border:1px solid #2b435f;color:#9fb4cc;border-radius:999px;padding:2px 13px;font-size:13px}
+  @media(max-width:640px){.hero h1{font-size:31px}.hero{padding:56px 0 48px}}
+
+  /* 区块 */
+  section{padding:64px 0 8px}
+  .kicker{color:var(--teal-d);font-size:13px;font-weight:700;letter-spacing:.22em;margin:0 0 6px}
+  h2{font-size:27px;margin:0 0 18px;color:var(--ink)}
+  .cols{display:grid;grid-template-columns:1.5fr 1fr;gap:28px}
+  @media(max-width:760px){.cols{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+  .card h3{margin:0 0 10px;font-size:17px;color:var(--ink)}
+  .card p{margin:0 0 10px;color:#475569;font-size:15px}
+  .card p:last-child{margin-bottom:0}
+  ul.tick{margin:6px 0 0;padding:0;list-style:none}
+  ul.tick li{padding:7px 0 7px 24px;position:relative;color:#475569;font-size:15px;border-bottom:1px dashed var(--line)}
+  ul.tick li:last-child{border-bottom:none}
+  ul.tick li::before{content:"✓";position:absolute;left:2px;color:var(--teal-d);font-weight:700}
+  .quote{background:var(--ink);border-radius:14px;padding:28px 30px;color:#dbeafe;font-size:17px;line-height:1.8}
+  .quote strong{color:#5eead4}
+
+  /* 旅程条 */
+  .journey{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:6px}
+  .step{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;position:relative}
+  .step + .step{margin-left:22px}
+  .step + .step::before{content:"→";position:absolute;left:-19px;top:50%;transform:translateY(-50%);color:var(--teal-d);font-weight:700;font-size:18px}
+  @media(max-width:760px){.step{min-width:100%}.step + .step{margin-left:0;margin-top:22px}.step + .step::before{left:50%;top:-21px;transform:translateX(-50%) rotate(90deg)}}
+  .step .n{color:var(--teal-d);font-weight:800;font-size:13px;letter-spacing:.15em}
+  .step h3{margin:4px 0 4px;font-size:16px;color:var(--ink)}
+  .step p{margin:0;font-size:13.5px;color:#64748b}
+
+  /* 功能卡片 */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .feat .ico{font-size:24px;line-height:1}
+  .feat h3{margin:12px 0 6px;font-size:16px;color:var(--ink)}
+  .feat p{margin:0;font-size:14px;color:#64748b}
+  .feat .tag{display:inline-block;background:#f0fdfa;border:1px solid #99f6e4;color:#115e59;border-radius:999px;padding:0 10px;font-size:12px;margin-bottom:8px}
+  .note{margin-top:18px;background:#f0fdfa;border:1px solid #99f6e4;border-radius:12px;padding:14px 20px;font-size:14px;color:#115e59}
+
+  /* 内容渠道 */
+  .channels{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.channels{grid-template-columns:1fr}}
+  .chan{background:var(--ink);border-radius:14px;padding:24px 26px;color:#dbeafe}
+  .chan h3{margin:0 0 8px;color:#fff;font-size:17px}
+  .chan p{margin:0 0 12px;font-size:14px;color:#9fb4cc}
+  .chan p:last-child{margin-bottom:0}
+  .chan a{color:#5eead4;font-weight:600}
+
+  footer{margin-top:72px;border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mut);font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </style>
 </head>
 <body>
-<main>
-  <h1>dutacitus.loc.cc</h1>
-  <p class="sub">你好，这里是 dutacitus 的个人小站。本站已正式上线，长期在线。</p>
 
-  <div class="card">
-    <h2>AquaRAS</h2>
-    <p>免费在线的循环水养殖（RAS）工程计算与项目管理平台：参数化工艺设计、3D 车间模型、投资与能耗估算，基础功能免费，结果为初步设计阶段的工程估算参考。</p>
-    <p><a href="https://www.aqua-ras.com">www.aqua-ras.com</a> · <a href="https://aqua-ras.ai">aqua-ras.ai</a></p>
+<header>
+  <nav>
+    <div class="brand">dutacitus<span>AquaRAS 作者</span></div>
+    <div class="links">
+      <a href="#about">关于</a>
+      <a href="#questions">三个问题</a>
+      <a href="#project">项目</a>
+      <a href="#notes">手记</a>
+      <a href="#channels">联系</a>
+      <a class="btn" href="https://www.aqua-ras.com">访问 AquaRAS</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="badge">个人 IP 站 · dutacitus.loc.cc</span>
+    <h1>动土之前，<br>先把账<em>算透</em>。</h1>
+    <p class="lead">我是 dutacitus，AquaRAS 的作者。一座循环水养殖场，动辄数百万：池子建错了还能改，参数算错了，整个投资跟着错。所以我把建场前要算的工艺、设备、投资和能耗，做成了一个打开浏览器就能跑一遍的计算平台——先算透，再动土。</p>
+    <div class="cta">
+      <a class="primary" href="https://www.aqua-ras.com">十分钟，算一版你的场</a>
+      <a class="ghost" href="#channels">在抖音听我讲这些账</a>
+    </div>
+    <div class="chips">
+      <span>质量守恒打底</span><span>可输入 · 可计算 · 可复现</span><span>工厂化循环水养殖（RAS）</span>
+    </div>
   </div>
+</div>
 
-  <div class="card">
-    <h2>关于本站</h2>
-    <p>这个域名用来做个人项目、演示和实验的统一入口。页面托管在 GitHub Pages 上，通过 Yunamo 提供的 dutacitus.loc.cc 域名访问。</p>
+<section id="journey">
+  <div class="wrap">
+    <p class="kicker">怎么开始</p>
+    <h2>两个输入，一整套方案</h2>
+    <div class="journey">
+      <div class="step"><div class="n">01</div><h3>品种 + 目标产能</h3><p>只需要先想清楚：养什么，一年养多少。</p></div>
+      <div class="step"><div class="n">02</div><h3>全套工艺参数</h3><p>引擎按质量守恒，把池、滤、氧、脱碳、固废一路推导出来。</p></div>
+      <div class="step"><div class="n">03</div><h3>3D 车间模型</h3><p>方案同步变成能转、能看的车间模型，不再只是一堆表格。</p></div>
+      <div class="step"><div class="n">04</div><h3>投资 · 能耗 · 回收期</h3><p>要花多少钱、每月烧多少电、多久回本，当场有量级。</p></div>
+      <div class="step"><div class="n">05</div><h3>存成你的项目</h3><p>方案留下来，下次打开接着算，越算越有底。</p></div>
+    </div>
   </div>
+</section>
 
-  <footer>© 2026 dutacitus · dutacitus.loc.cc</footer>
-</main>
+<section id="about">
+  <div class="wrap">
+    <p class="kicker">关于我</p>
+    <h2>在一线踩过坑，才想做这个工具</h2>
+    <div class="cols">
+      <div class="card">
+        <p>我有水产养殖的专业背景，也在工厂化循环水养殖一线干了多年：养过鱼、设计过系统、核算过成本。见得多了就明白，从业者最怕的从来不是没钱，而是<strong>开工之后才发现参数错了</strong>——那时候，每改一处都是真金白银。</p>
+        <p>AquaRAS 就是想把这一步提前：把经验里靠脑子记、靠表格凑的计算，变成有依据、可复现的过程。这个小站是我的个人入口，想聊具体的场，先去跑一版方案，带着数字来，聊得最快。</p>
+      </div>
+      <div class="card">
+        <h3>可以聊的方向</h3>
+        <ul class="tick">
+          <li>新建 RAS 项目的前期方案与量级估算</li>
+          <li>工艺路线与核心设备选型的思路</li>
+          <li>用 AquaRAS 做初步设计的方法</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="questions">
+  <div class="wrap">
+    <p class="kicker">先回答三个问题</p>
+    <h2>来找我的人，通常卡在这里</h2>
+    <div class="grid">
+      <div class="feat"><div class="ico">🐟</div><h3>养什么？</h3><p>品种决定密度、水温和水质底线，选错品种，后面全是补救。</p></div>
+      <div class="feat"><div class="ico">🎯</div><h3>养多少？</h3><p>产能不是越大越好：它直接绑住投资、能耗和现金流。</p></div>
+      <div class="feat"><div class="ico">⚙️</div><h3>怎样养？</h3><p>运行条件一变，工艺和设备全跟着变，必须联动着算。</p></div>
+    </div>
+    <div class="note">这三个问题答不清，后面的钱都花得心虚。AquaRAS 的计算，正是从这三个问题开始的。</div>
+  </div>
+</section>
+
+<section id="project">
+  <div class="wrap">
+    <p class="kicker">我的项目</p>
+    <h2>AquaRAS 能帮你算什么</h2>
+    <div class="grid">
+      <div class="feat"><div class="ico">🧮</div><h3>工艺，一次推全</h3><p>养殖池、生物滤池（MBBR）、纯氧增氧、CO₂ 脱除、固废处理，输入产能，一套参数一起出来。</p></div>
+      <div class="feat"><div class="ico">🏭</div><h3>车间，看得见</h3><p>计算同步生成可交互的 3D 车间模型，跟投资人、合伙人讲方案，不用再靠想象。</p></div>
+      <div class="feat"><div class="ico">🔗</div><h3>图纸，互相对得上</h3><p>点工艺节点，P&amp;ID 里的设备跟着亮；点设备，PFD 里的节点跟着亮。</p></div>
+      <div class="feat"><div class="ico">🎯</div><h3>反着算，也行</h3><p>先定回收期或成本目标，再让系统反推参数——目标求解和敏感性分析，登录后可用。</p></div>
+      <div class="feat"><div class="ico">💡</div><h3>钱，算在前面</h3><p>建设投资、运行能耗、回收期，在设计阶段就有量级，不等建完才知道贵不贵。</p></div>
+      <div class="feat"><div class="ico">📁</div><h3>方案，留得住</h3><p>方案可保存、对比、导出报告；参数从哪来、怎么算的，都能查、能复现。</p></div>
+    </div>
+    <div class="note">说明：AquaRAS 的基础工艺计算与基础智能调参<strong>免费开放、无需注册</strong>；计算结果是<strong>工程估算，用于初步设计与项目参考</strong>，真要施工，须由具备资质的设计单位深化。</div>
+  </div>
+</section>
+
+<section id="vision">
+  <div class="wrap">
+    <p class="kicker">我图什么</p>
+    <h2>少一点「差不多」，多一点「算得出」</h2>
+    <div class="quote">这个行业缺的不是经验，是<strong>量化参考</strong>。我想让每一个初步方案，都拿得出参数、过程和依据：<strong>科学、透明、可验证</strong>。算得出，才敢投；算得清，才睡得稳。</div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <p class="kicker">作者手记</p>
+    <h2>在抖音讲，也在这里慢慢写</h2>
+    <div class="grid">
+      <div class="feat"><span class="tag">选题预告</span><h3>多铸一只池，到底贵在哪？</h3><p>多出来的不只是混凝土：水量、循环、增氧、能耗会一路跟着涨。</p></div>
+      <div class="feat"><span class="tag">选题预告</span><h3>电费为什么总是估低？</h3><p>设备铭牌功率 ≠ 实际电费，差就差在运行时间和负荷率上。</p></div>
+      <div class="feat"><span class="tag">选题预告</span><h3>回收期算得越好看，越要小心</h3><p>把每个乐观假设都摊开看一遍，数字才配叫依据。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="channels">
+  <div class="wrap">
+    <p class="kicker">内容与联系</p>
+    <h2>在哪里找到我</h2>
+    <div class="channels">
+      <div class="chan">
+        <h3>抖音 · 短视频</h3>
+        <p>账号「Aqua-ras工艺计算引擎」（抖音号 54373792920），用短视频讲 RAS 工艺、设备选型和建场前要算的账。</p>
+        <p>打开抖音，搜索 <strong style="color:#fff">AquaRAS</strong> 即可。</p>
+      </div>
+      <div class="chan">
+        <h3>咨询 · 邮箱</h3>
+        <p>项目咨询与合作，可以通过 AquaRAS 的客服邮箱联系。</p>
+        <a href="mailto:service@aqua-ras.com">service@aqua-ras.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 dutacitus · AquaRAS 作者</span>
+    <span>dutacitus.loc.cc</span>
+  </div>
+</footer>
+
 </body>
 </html>
